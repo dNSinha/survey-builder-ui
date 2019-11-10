@@ -1,0 +1,190 @@
+<div class="container width_control">
+    <div class="header">
+        <i class="fa fa-folder">
+            <span class="msg_folder">Move to folder</span>
+        </i>
+        <i class="far fa-star">
+            <span class="msg_star">Star</span>
+        </i>
+        <i class="fa fa-palette">
+            <span class="msg_theme">Customize theme</span>
+        </i>
+        <i class="fa fa-eye">
+            <span class="msg_preview">Preview</span>
+        </i>
+        <i class="fa fa-cog">
+            <span class="msg_setting">Setting</span>
+        </i>
+        <button class="btn_send">SEND</button>
+        <i class="fa fa-ellipsis-v">
+            <span class="msg_more">More</span>
+        </i>
+
+        <div class="toggle_btn_group">
+            <button id="question_btn">QUESTIONS</button>
+            <button id="response_btn">RESPONSE</button>
+        </div>
+    </div>
+    <form class="form-horizontal content" novalidate (ngSubmit)="save()" [formGroup]="customerForm">
+        <fieldset>
+            <div formGroupName="titleSection">
+                <div class="default_model">
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="form_titleId" placeholder="Untitled from" formControlName="form_title" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="form_descId" placeholder="Form description" formControlName="form_desc" />
+                    </div>
+                </div>
+            </div>
+            <div class="questions_type">
+                <div class="form-group">
+                    <div class="col-md-4 col-md-offset-2">
+                        <span>
+                            <button class="btn btn-primary" type="button" (click)="addAddress()">
+                                Add Another Address
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div formArrayName="addresses" *ngFor="let address of addresses.controls; let i=index">
+                    <div [formGroupName]="i">
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="{{'street1Id' + i}}" placeholder="Untitled question" formControlName="street1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <select class="form-control" id="{{'stateId' + i}}" (keyup)="setChoice(address.controls.state.value, i)" formControlName="state">
+                                    <option value="" disabled selected hidden>Select a State...</option>
+                                    <option value="SA">Short answer</option>
+                                    <option value="PG">Paragraph</option>
+                                    <option value="MC">Multiple choice</option>
+                                    <option value="CB">Checkboxes</option>
+                                    <option value="DD">Drop-down</option>
+                                    <option value="FA">File upload</option>
+                                    <option value="LS">Linear-scale</option>
+                                    <option value="MG">Multiple-choice-grid</option>
+                                    <option value="TB">Tick box grid</option>
+                                    <option value="DA">Date</option>
+                                    <option value="TE">Time</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" *ngIf="showTextBox">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="{{'passageId' + i}}" placeholder="Untitled question" formControlName="passage">
+                            </div>
+                        </div>
+                        <div class="form-group" *ngIf="showOptions">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="{{'passageId' + i}}" placeholder="Option 1" formControlName="options1">
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="{{'passageId' + i}}" placeholder="Option 2" formControlName="options2">
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="{{'passageId' + i}}" placeholder="Option 3" formControlName="options3">
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="{{'passageId' + i}}" placeholder="Option 4" formControlName="options4">
+                            </div>
+                        </div>
+                        <div class="form-group" *ngIf="showFileUpload">
+                            <div class="col-md-8">
+                                <input type="file" class="form-control" id="{{'passageId' + i}}" (change)="onFileChange($event)" placeholder="Add File" formControlName="fileUp">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4 col-md-offset-2">
+                    <span>
+                        <button class="btn btn-primary" type="submit">
+                            Save
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <div class="questions_type">
+        <select id="selectManu">
+            <option value="1">Short answer</option>
+            <option value="2">Paragraph</option>
+            <option value="3">Multiple choice</option>
+            <option value="4">Checkboxes</option>
+            <option value="5">Drop-down</option>
+            <option value="6">File upload</option>
+            <option value="7">Linear-scale</option>
+            <option value="8">Multiple-choice-grid</option>
+            <option value="9">Tick box grid</option>
+            <option value="10">Date</option>
+            <option value="11">Time</option>
+        </select>
+        <div class="short_answer_model">
+            <input type="text" id="question_title" value="Untitled question">
+            <input type="text" id="short_answer" placeholder="Short-answer text">
+        </div>
+        <div class="paragraph">
+            <input type="text" id="question_title2" value="Untitled question">
+            <input type="text" id="long_answer" placeholder="Long-answer text">
+        </div>
+        <div class="multiple_choice">
+            <input type="text" id="question_title3" value="Untitled question">
+            <div id="option">
+                <div id="optionAdding">
+                    <table style="margin-top: 0px;" id="multiOption">
+                        <tr>
+                            <td>
+                                <div id="circle"></div>
+                            </td>
+                            <td>
+                                <input type="text" id="option1" placeholder="Option 1">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <table>
+                    <tr>
+                        <td>
+                            <div id="circle2"></div>
+                        </td>
+                        <td>
+                            <input type="text" id="optionOther" placeholder="Other">
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>
+                            <div id="circle1"></div>
+                        </td>
+                        <td>
+                            <label id="addoption">Add option &nbsp;or</label>
+                        </td>
+                        <td>
+                            <span id="addother">ADD "OTHER"</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="question_type_footer">
+            <i class="fa fa-clone" (click)="clone()">
+                <span class="msg_duplicate">Duplicate</span>
+            </i>
+            <i class="fa fa-trash" (click)="remove()">
+                <span class="msg_remove">Remove</span>
+            </i>
+            <div id="required">Required
+                <span class="toggle_btn_require">
+                    <i class="toggle_circle"></i>
+                </span>
+            </div>
+            <span class="fa fa-ellipsis-v"></span>
+        </div>
+    </div>
+</div>

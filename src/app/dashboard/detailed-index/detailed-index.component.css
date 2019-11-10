@@ -1,0 +1,32 @@
+.topleft{
+	margin-top: 5px;
+}
+.back{
+	width:70px;
+	height: 25px;
+	background-color:#d5cfcf;
+	border:none;
+	outline: none;
+	margin-left: 5px;
+}
+.three-box-container{
+	
+	margin-left: 100px;
+	/* margin-right: 50px; */
+}
+.topbox{
+	background-color: #d5cfcf;
+	height: 180px;
+	width: 300px;
+	margin-right: 20px;
+}
+table, th, td {
+    padding-top: .5em;
+    padding-bottom: .5em;
+	padding-right: .5em;
+    padding-left: .99em;
+    
+}
+.row {
+	display: inline-block !important;
+}
